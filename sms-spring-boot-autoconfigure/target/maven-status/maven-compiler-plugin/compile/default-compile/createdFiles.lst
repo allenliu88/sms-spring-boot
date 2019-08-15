@@ -1,9 +1,0 @@
-cn\felord\boot\sms\autoconfigure\SmsAutoConfiguration.class
-cn\felord\boot\sms\autoconfigure\core\SmsProperties.class
-cn\felord\boot\sms\autoconfigure\annotation\EnableSMS.class
-cn\felord\boot\sms\autoconfigure\core\SmsProperties$Aliyun.class
-cn\felord\boot\sms\autoconfigure\core\SmsResult.class
-META-INF\spring-configuration-metadata.json
-cn\felord\boot\sms\autoconfigure\core\AliSmsSender.class
-cn\felord\boot\sms\autoconfigure\core\SmsTemplateEnum.class
-cn\felord\boot\sms\autoconfigure\core\SmsSender.class
