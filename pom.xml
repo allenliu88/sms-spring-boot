@@ -62,7 +62,6 @@
                 <artifactId>spring-boot-starter-logging</artifactId>
                 <version>${spring-boot.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>cn.felord.boot</groupId>
                 <artifactId>sms-spring-boot-autoconfigure</artifactId>
