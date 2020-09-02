@@ -15,10 +15,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class SmsProperties {
 
     /**
-     *  sms prefix.
+     * sms prefix.
      */
     static final String SMS_PREFIX = "sms";
     private Aliyun aliyun;
+    private Baidu baidu;
 
     /**
      * sms switch  production is set to true, development set to false
@@ -26,7 +27,7 @@ public class SmsProperties {
     private boolean enabled;
 
     /**
-     *  aliyun  sms config.
+     * aliyun  sms config.
      */
     @Data
     public static class Aliyun {
@@ -45,4 +46,23 @@ public class SmsProperties {
 
     }
 
+    /**
+     * aliyun  sms config.
+     */
+    @Data
+    public static class Baidu {
+        /**
+         *  baidu sms accessKeyId
+         */
+        private final String accessKeyId;
+        /**
+         *  baidu sms secretAccessKey
+         */
+        private final String secretAccessKey;
+        /**
+         *  baidu sms signatureId
+         */
+        private final String signatureId;
+
+    }
 }

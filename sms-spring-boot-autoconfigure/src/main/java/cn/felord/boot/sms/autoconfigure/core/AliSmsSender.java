@@ -20,11 +20,11 @@ import java.util.Map;
  * @since 10 :40  2019-04-03
  */
 @Slf4j
-public class AliSmsSender implements SmsSender {
-    private boolean enabled;
-    private String signName;
-    private String accessKeyId;
-    private String accessKeySecret;
+public class AliSmsSender extends AbstractSmsSender {
+
+    private final String signName;
+    private final String accessKeyId;
+    private final String accessKeySecret;
     /**
      * 产品名称:云通信短信API产品,开发者无需替换   阿里云短信测试专用
      */
@@ -60,26 +60,11 @@ public class AliSmsSender implements SmsSender {
         statusMap.put("isv.AMOUNT_NOT_ENOUGH", "账户余额不足");
     }
 
-    public AliSmsSender(boolean enabled,String signName, String accessKeyId, String accessKeySecret) {
-        this.enabled = enabled;
-        this.signName=signName;
+    public AliSmsSender(boolean enabled, String signName, String accessKeyId, String accessKeySecret) {
+        super(enabled);
+        this.signName = signName;
         this.accessKeyId = accessKeyId;
         this.accessKeySecret = accessKeySecret;
-    }
-
-    @Override
-    public SmsResult send(SmsTemplateEnum smsTemplateEnum, Map<String, String> params, String phoneNumber) {
-        SmsResult smsResult = new SmsResult();
-        final String successCode = "0";
-        boolean sendSuccess = false;
-        if (enabled) {
-            String result = doSend(smsTemplateEnum.templateId(), params, phoneNumber);
-            sendSuccess = successCode.equals(result);
-        } else {
-            log.info("phoneNumber：{} params：{}", phoneNumber, params);
-        }
-        smsResult.setSuccessful(sendSuccess);
-        return smsResult;
     }
 
 
@@ -93,15 +78,11 @@ public class AliSmsSender implements SmsSender {
      * @param phoneNumber  the phone number
      * @return the send sms response
      */
-    private String doSend(String templateCode, Map<String, String> params, String phoneNumber) {
+    @Override
+    public String doSend(String templateCode, Map<String, String> params, String phoneNumber) {
         String result = "1";
-        IAcsClient acsClient;
-        try {
-            acsClient = initClient();
-        } catch (ClientException e) {
-            log.error("初始化短信客户端失败:", e);
-            return result;
-        }
+        IAcsClient acsClient = initClient();
+
         //组装请求对象-具体描述见控制台-文档部分内容
         SendSmsRequest request = new SendSmsRequest();
         //必填:待发送手机号
@@ -113,7 +94,7 @@ public class AliSmsSender implements SmsSender {
         //可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时,此处的值为
         log.debug("短信参数" + params.toString());
 
-        Gson gson=new Gson();
+        Gson gson = new Gson();
         String json = gson.toJson(params);
         request.setTemplateParam(json);
 
@@ -136,7 +117,7 @@ public class AliSmsSender implements SmsSender {
         return result;
     }
 
-    private IAcsClient initClient() throws ClientException {
+    private IAcsClient initClient() {
         //可自助调整超时时间
         System.setProperty("sun.net.client.defaultConnectTimeout", "4000");
         System.setProperty("sun.net.client.defaultReadTimeout", "4000");
