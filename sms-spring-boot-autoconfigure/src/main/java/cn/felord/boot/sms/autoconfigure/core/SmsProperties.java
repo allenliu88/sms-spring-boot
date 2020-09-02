@@ -18,7 +18,13 @@ public class SmsProperties {
      * sms prefix.
      */
     static final String SMS_PREFIX = "sms";
+    /**
+     * aliyun
+     */
     private Aliyun aliyun;
+    /**
+     * baidu
+     */
     private Baidu baidu;
 
     /**
@@ -47,22 +53,22 @@ public class SmsProperties {
     }
 
     /**
-     * aliyun  sms config.
+     * baidu  sms config.
      */
     @Data
     public static class Baidu {
         /**
-         *  baidu sms accessKeyId
+         * baidu sms accessKeyId
          */
-        private final String accessKeyId;
+        private String accessKeyId;
         /**
-         *  baidu sms secretAccessKey
+         * baidu sms secretAccessKey
          */
-        private final String secretAccessKey;
+        private String secretAccessKey;
         /**
-         *  baidu sms signatureId
+         * baidu sms signatureId
          */
-        private final String signatureId;
+        private String signatureId;
 
     }
 }
