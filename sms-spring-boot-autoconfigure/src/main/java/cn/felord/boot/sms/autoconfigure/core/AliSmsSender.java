@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -35,29 +36,29 @@ public class AliSmsSender extends AbstractSmsSender {
      * 产品域名,开发者无需替换
      */
     private static final String API = "dysmsapi.aliyuncs.com";
-    private static Map<String, String> statusMap = new HashMap<>();
+    private static final Map<String, String> STATUS_MAP = new HashMap<>();
 
     static {
-        statusMap.put("OK", "请求成功");
-        statusMap.put("isp.RAM_PERMISSION_DENY", "RAM权限DENY");
-        statusMap.put("isv.OUT_OF_SERVICE", "业务停机");
-        statusMap.put("isv.PRODUCT_UN_SUBSCRIPT", "未开通云通信产品的阿里云客户");
-        statusMap.put("isv.PRODUCT_UNSUBSCRIBE", "产品未开通");
-        statusMap.put("isv.ACCOUNT_NOT_EXISTS", "账户不存在");
-        statusMap.put("isv.ACCOUNT_ABNORMAL", "账户异常");
-        statusMap.put("isv.SMS_TEMPLATE_ILLEGAL", "短信模板不合法");
-        statusMap.put("isv.SMS_SIGNATURE_ILLEGAL", "短信签名不合法");
-        statusMap.put("isv.INVALID_PARAMETERS", "参数异常");
-        statusMap.put("isp.SYSTEM_ERROR", "ISP系统错误");
-        statusMap.put("isv.MOBILE_NUMBER_ILLEGAL", "非法手机号");
-        statusMap.put("isv.MOBILE_COUNT_OVER_LIMIT", "手机号码数量超过限制");
-        statusMap.put("isv.TEMPLATE_MISSING_PARAMETERS", "模板缺少变量");
-        statusMap.put("isv.BUSINESS_LIMIT_CONTROL", "业务限流");
-        statusMap.put("isv.INVALID_JSON_PARAM", "JSON参数不合法，只接受字符串值");
-        statusMap.put("isv.BLACK_KEY_CONTROL_LIMIT", "黑名单管控");
-        statusMap.put("isv.PARAM_LENGTH_LIMIT", "参数超出长度限制");
-        statusMap.put("isv.PARAM_NOT_SUPPORT_URL", "不支持URL");
-        statusMap.put("isv.AMOUNT_NOT_ENOUGH", "账户余额不足");
+        STATUS_MAP.put("OK", "请求成功");
+        STATUS_MAP.put("isp.RAM_PERMISSION_DENY", "RAM权限DENY");
+        STATUS_MAP.put("isv.OUT_OF_SERVICE", "业务停机");
+        STATUS_MAP.put("isv.PRODUCT_UN_SUBSCRIPT", "未开通云通信产品的阿里云客户");
+        STATUS_MAP.put("isv.PRODUCT_UNSUBSCRIBE", "产品未开通");
+        STATUS_MAP.put("isv.ACCOUNT_NOT_EXISTS", "账户不存在");
+        STATUS_MAP.put("isv.ACCOUNT_ABNORMAL", "账户异常");
+        STATUS_MAP.put("isv.SMS_TEMPLATE_ILLEGAL", "短信模板不合法");
+        STATUS_MAP.put("isv.SMS_SIGNATURE_ILLEGAL", "短信签名不合法");
+        STATUS_MAP.put("isv.INVALID_PARAMETERS", "参数异常");
+        STATUS_MAP.put("isp.SYSTEM_ERROR", "ISP系统错误");
+        STATUS_MAP.put("isv.MOBILE_NUMBER_ILLEGAL", "非法手机号");
+        STATUS_MAP.put("isv.MOBILE_COUNT_OVER_LIMIT", "手机号码数量超过限制");
+        STATUS_MAP.put("isv.TEMPLATE_MISSING_PARAMETERS", "模板缺少变量");
+        STATUS_MAP.put("isv.BUSINESS_LIMIT_CONTROL", "业务限流");
+        STATUS_MAP.put("isv.INVALID_JSON_PARAM", "JSON参数不合法，只接受字符串值");
+        STATUS_MAP.put("isv.BLACK_KEY_CONTROL_LIMIT", "黑名单管控");
+        STATUS_MAP.put("isv.PARAM_LENGTH_LIMIT", "参数超出长度限制");
+        STATUS_MAP.put("isv.PARAM_NOT_SUPPORT_URL", "不支持URL");
+        STATUS_MAP.put("isv.AMOUNT_NOT_ENOUGH", "账户余额不足");
     }
 
     public AliSmsSender(boolean enabled, String signName, String accessKeyId, String accessKeySecret) {
@@ -79,7 +80,7 @@ public class AliSmsSender extends AbstractSmsSender {
      * @return the send sms response
      */
     @Override
-    public String doSend(String templateCode, Map<String, String> params, String phoneNumber) {
+    public String doSend(String templateCode, LinkedHashMap<String, String> params, String phoneNumber) {
         String result = "1";
         IAcsClient acsClient = initClient();
 
@@ -108,7 +109,7 @@ public class AliSmsSender extends AbstractSmsSender {
             }
 
             String msg = "{\"状态码\":\"%s\",\"描述\":\"%s\"}";
-            log.debug(String.format(msg, status, statusMap.get(status)));
+            log.debug(String.format(msg, status, STATUS_MAP.get(status)));
 
         } catch (ClientException e) {
             log.error("短信发送异常 {}", params);

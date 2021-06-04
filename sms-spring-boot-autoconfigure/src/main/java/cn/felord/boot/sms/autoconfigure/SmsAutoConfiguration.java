@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Import;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(SmsProperties.class)
-@Import({AliyunSMSConfiguration.class,BaiduSMSConfiguration.class})
+@Import({AliyunSMSConfiguration.class, BaiduSMSConfiguration.class, HuaweiSMSconfiguration.class})
 public class SmsAutoConfiguration {
 
 }

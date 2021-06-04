@@ -7,6 +7,7 @@ import com.baidubce.services.sms.model.SendMessageV3Request;
 import com.baidubce.services.sms.model.SendMessageV3Response;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -30,7 +31,7 @@ public class BaiduSmsSender extends AbstractSmsSender {
 
 
     @Override
-    protected String doSend(String templateCode, Map<String, String> params, String phoneNumber) {
+    protected String doSend(String templateCode, LinkedHashMap<String, String> params, String phoneNumber) {
         String result = "1";
         SmsClientConfiguration config = new SmsClientConfiguration();
         config.setCredentials(new DefaultBceCredentials(accessKeyId, secretAccessKey));

@@ -26,6 +26,10 @@ public class SmsProperties {
      * baidu
      */
     private Baidu baidu;
+    /**
+     * huawei
+     */
+    private Huawei huawei;
 
     /**
      * sms switch  production is set to true, development set to false
@@ -71,4 +75,28 @@ public class SmsProperties {
         private String signatureId;
 
     }
+
+    /**
+     * huawei sms config.
+     */
+    @Data
+    public static class Huawei {
+        /**
+         *  endpoint
+         */
+        private String endpoint;
+        /**
+         *  accessKeyId
+         */
+        private String accessKeyId;
+        /**
+         *  secretAccessKey
+         */
+        private String secretAccessKey;
+        /**
+         *  signName
+         */
+        private String signName;
+    }
+
 }
