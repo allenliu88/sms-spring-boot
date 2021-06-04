@@ -2,6 +2,7 @@ package cn.felord.boot.sms.autoconfigure.core;
 
 import cn.felord.boot.sms.autoconfigure.core.huawei.HuaweiBody;
 import cn.felord.boot.sms.autoconfigure.core.huawei.HuaweiResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.http.HttpHeaders;
@@ -27,6 +28,7 @@ import java.util.LinkedHashMap;
  * @author n1
  * @since 2021 /6/4 9:23
  */
+@Slf4j
 public class HuaweiSmsSender extends AbstractSmsSender {
     private static final String SUCCESS_CODE = "000000";
     private static final String WSSE_HEADER_FORMAT = "UsernameToken Username=\"%s\",PasswordDigest=\"%s\",Nonce=\"%s\",Created=\"%s\"";
@@ -89,7 +91,11 @@ public class HuaweiSmsSender extends AbstractSmsSender {
                 .header("X-WSSE", wsseHeader)
                 .body(postParameters);
         ResponseEntity<HuaweiResponse> exchange = restTemplate.exchange(entity, HuaweiResponse.class);
-        return exchange.getBody();
+        HuaweiResponse body = exchange.getBody();
+        if (log.isDebugEnabled()) {
+            log.debug("huawei sms sender response : {}", body);
+        }
+        return body;
     }
 
 

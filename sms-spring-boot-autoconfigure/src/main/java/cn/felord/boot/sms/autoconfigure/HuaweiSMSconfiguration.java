@@ -28,8 +28,9 @@ public class HuaweiSMSconfiguration {
      * @return the sms sender
      */
     @Bean
-    public SmsSender huaweiSmsSender(RestTemplate restTemplate, SmsProperties smsProperties) {
+    public SmsSender huaweiSmsSender(SmsProperties smsProperties) {
         SmsProperties.Huawei huawei = smsProperties.getHuawei();
+        RestTemplate restTemplate = new RestTemplate();
         return new HuaweiSmsSender(smsProperties.isEnabled(), restTemplate, huawei);
     }
 }
